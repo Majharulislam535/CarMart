@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+  <div class="container">
+        
+        <div class="d-flex justify-content-center align-items-center p-5">
+             <div class="col-6 px-3">
+                 <img src="{{object.image.url}}" width="100%" alt="">
+             </div>
+             <div class="col-6 p-2">
+                 <h3>
+                    {{object.name}}
+                 </h3>
+                 <h1 class="text-primary">
+                    $ {{object.price}}
+                 </h1>
+                 <h5 class="text-danger">
+                     {{object.brand}}
+                 </h5>
+                 <h5>
+                    Quantity: {{object.quantity}}
+                 </h5>
+                 <p>
+                    {{object.details}}
+                 </p>
+                 
+                 {% if request.user.is_authenticated %}
+
+                
+                  <form action="{% url 'buy_now' object.id %}" method="post"> 
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">
+                        
+                        Buy Now
+                        
+                    </button>
+                </form>
+                 {% else %}
+                  
+                 {% endif %}
+             </div>
+        </div>
+
+        {% if comments %}
+        <div class="card m-3 p-4">
+            {%for comment in comments%}
+               <div class="card-body">
+                    <p>{{comment.name}}</p>
+                    <p>{{comment.body}}</p>
+                    <p>{{comment.created_on}}</p>
+               </div>
+            {%endfor%}
+               
+         </div>
+         {% else %}
+           <p>No Comments in this post</p>
+         {% endif %}
+        
+
+       
+        <div class="card m-3 p-3">
+            <form  method="post">
+                <h1 class="text-warning">Add Comment</h1>
+                {% csrf_token %}
+                {{comment_form | crispy}}
+                <button type="submit" class="btn btn-warning">submit</button>
+            </form>
+        </div>
+    
+         
+        
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{%load crispy_forms_tags %}
+{% block content %}
+
+{% if messages %}
+{% for ms in messages %}
+<h5 class="text-white bg-success rounded px-4 py-3">{{ms}}</h5>
+{% endfor %}
+{% endif %}
+
+<div class="container my-4">
+       <h2 class="text-primary my-5 text-center">Profile Page</h2>
+       <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit Profile</a>
+       <a class="btn btn-primary" href="{% url 'passChange' %}">Change Your Password</a>
+       <br>
+</div>
+
+<div class="container">
+     <div class="row">
+        {% for order in orders %}
+             
+
+             <div class="col-3 mb-4">
+                <div class="card" style="width:100%;">
+                  <img src="{{order.car.image.url}}" class="card-img-top p-3" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ order.car.name }}</h5>
+                    <h5 class="card-title text-primary">${{ order.car.price }}</h5>
+                     <p><b>{{order.car.brand}}</b></p>
+                    <p class="card-text">{{order.car.details |truncatewords:19 }}</p>
+                  </div>
+                </div>
+            </div>
+
+
+
+
+
+
+        {% empty %}
+           <p>No orders yet.</p>
+        {% endfor %}
+     </div>
+</div>
+
+
+       
+
+
+
+
+
+
+{% endblock %}
